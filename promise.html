@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>download with promise</title>
+</head>
+<body>
+   <script>
+    function downloadVideoWithPromise() {
+  return new Promise((resolve, reject) => {
+    fetch('https://example.com/video.mp4')
+      .then(response => response.blob())
+      .then(blob => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'video.mp4';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        resolve('Video downloaded successfully');
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+}
+
+downloadVideoWithPromise()
+  .then(message => {
+    console.log(message);
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+
+   </script> 
+</body>
+</html>
